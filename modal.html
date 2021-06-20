@@ -1,115 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
+from datetime import datetime
 
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title></title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
+def changeMonthtoNumber(month):
+    if month == 'janeiro':
+        return '01'
+    elif month.lower() == 'fevereiro':
+        return '02'
+    elif month.lower() == 'março':
+        return '03'
+    elif month.lower() == 'abril':
+        return '04'
+    elif month.lower() == 'maio':
+        return '05'
+    elif month.lower() == 'junho':
+        return '06'
+    elif month.lower() == 'julho':
+        return '07'
+    elif month.lower() == 'agosto':
+        return '08'
+    elif month.lower() == 'setembro':
+        return '09'
+    elif month.lower() == 'outubro':
+        return '10'
+    elif month.lower() == 'novembro':
+        return '11'
+    elif month.lower() == 'dezembro':
+        return '12'
+    else:
+        return 'invalido'
 
-<body>
-  <!-- Button trigger modal -->
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-    Launch demo modal
-  </button>
+datastr = "24 de abril de 2021"
+datastr = datastr.split(" ")
+dia = datastr[0]
+mes = changeMonthtoNumber(datastr[2])
+ano = datastr[4]
+dataFinal = dia + '/' + mes + '/' + ano
 
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Validação</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="id-validacao">ID</label>
-            <input type="email" class="form-control" id="id-validacao" value="{{ id_validacao }}" disabled>
-          </div>
-          <div style="display: flex;">
-            <div style="width: 45%;">
-              <label for="objeto">Objeto</label>
-              <input type="text" class="form-control" id="objeto" value="{{ objeto }}" disabled>
-            </div>
-            <div style="width: 10%;"></div>
-            <div style="width: 45%;">
-              <label for="ambiente">Ambiente</label>
-              <input type="text" class="form-control" id="ambiente" value="{{ ambiente }}" disabled>
-            </div>
-          </div>
-          <div style="display: flex; margin-top: 10px;">
-            <div style="width: 45%;">
-              <p>Anterior</p>
-            <div class="form-group">
-              <label for="data-anterior">Data anterior</label>
-              <input type="text" class="form-control" id="data-anterior" value="{{ data-anterior }}" disabled>
-            </div>
-            <div class="form-group">
-              <label for="exec-ant">Execuções</label>
-              <input type="text" class="form-control" id="exec-ant" value="{{ exec-ant }}" disabled>
-            </div>
-            <div class="form-group">
-              <label for="cpu-ant">Tempo CPU</label>
-              <input type="text" class="form-control" id="cpu-ant" value="{{ cpu-ant }}" disabled>
-            </div>
-            <div class="form-group">
-              <label for="efic-ant">Eficiência</label>
-              <input type="text" class="form-control" id="efic-ant" value="{{ efic-ant }}" disabled>
-            </div>
-            <div class="form-group">
-              <label for="mips-ant">MIPs</label>
-              <input type="text" class="form-control" id="mips-ant" value="{{ mips-ant }}" disabled>
-              </div>
-            </div>
-            <div style="width: 10%;"></div>
-            <div style="width: 45%;">
-              <p>Posterior</p>
-              <div class="form-group">
-                <label for="data-posterior">Data posterior</label>
-                <input type="text" class="form-control" id="data-posterior" value="{{ data-posterior }}" disabled>
-              </div>
-              <div class="form-group">
-                <label for="exec-post">Execuções</label>
-                <input type="text" class="form-control" id="exec-post" value="{{ exec-post }}" disabled>
-              </div>
-              <div class="form-group">
-                <label for="cpu-post">Tempo CPU</label>
-                <input type="text" class="form-control" id="cpu-post" value="{{ cpu-post }}" disabled>
-              </div>
-              <div class="form-group">
-                <label for="efic-post">Eficiência</label>
-                <input type="text" class="form-control" id="efic-post" value="{{ efic-post }}" disabled>
-              </div>
-              <div class="form-group">
-                <label for="mips-post">MIPs</label>
-                <input type="text" class="form-control" id="mips-post" value="{{ mips-post }}" disabled>
-              </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="tipo-eficiencia">Tipo de Eficiência</label>
-              <select class="form-control" aria-label="Default select example" id="tipo-eficiencia">
-                <option selected>Selecione uma opção</option>
-                <option value="1">efic</option>
-                <option value="2">efic + mov</option>
-              </select>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-          </div>
-        </div>
-      </div>
-    </div>
-</body>
+dataFinal = datetime.strptime(dataFinal, '%d/%m/%Y')
 
-</html>
+print(type(dataFinal))
+print(dataFinal)
