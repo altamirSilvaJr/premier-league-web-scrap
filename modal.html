@@ -1,41 +1,54 @@
-from datetime import datetime
+obj = request.GET.get("objetos")
+    dataIniciativa = request.GET.get("dataIniciativa")
+    ambiente = request.GET.get("ambiente")
+    print(type(dataIniciativa))
+    novaIniciativa = Iniciativas.objects.create(
+        objetos = obj,
+        data_iniciativa = dataIniciativa,
+        ambiente = ambiente
+    )
+    novaIniciativa.save()
+    print(dataIniciativa)
+    objs = obj.split(';')
+    for o in objs:
+        picoPost = Mfpicomonth.objects.filter(transid = o).first()
+        if picoPost:
+            transid = o
+            posteriores = Mfpicomonth.objects.filter(transid=o).filter(date__gt=datetime.strptime(dataIniciativa, '%Y-%m-%d')).order_by('date')
+            anteriores = Mfpicomonth.objects.filter(transid=o).filter(date__lt=datetime.strptime(dataIniciativa, '%Y-%m-%d')).order_by('-date')
+            dataIni = datetime.strptime(dataIniciativa, '%Y-%m-%d')
+            numeroMesAtual = dataIni.month
+            mips_posterior = 0
+            primeiroMesPosterior = posteriores[0].date.month
+            if posteriores:
+                for item in posteriores:
+                    if item.date.month > primeiroMesPosterior:
+                        pass
+                    else:
+                        mips_posterior+=item.mips
+                        mes_posterior = item.date 
+            mips_anterior = 0
+            primeiroMesAnterior = anteriores[0].date.month
+            if anteriores:
+                for item in anteriores:
+                    if item.date.month < primeiroMesAnterior:
+                        pass
+                    else:
+                        mips_anterior+=item.mips
+                        mes_anterior = item.date
+            novaValidacao = Validacao.objects.create(
+                objeto = o,
+                ambiente = ambiente,
+                mes_anterior = mes_anterior,
+                mes_posterior = mes_posterior,
+                mips_anterior = mips_anterior,
+                mips_posterior = mips_posterior
+            )
+            novaValidacao.save() 
 
-def changeMonthtoNumber(month):
-    if month == 'janeiro':
-        return '01'
-    elif month.lower() == 'fevereiro':
-        return '02'
-    elif month.lower() == 'março':
-        return '03'
-    elif month.lower() == 'abril':
-        return '04'
-    elif month.lower() == 'maio':
-        return '05'
-    elif month.lower() == 'junho':
-        return '06'
-    elif month.lower() == 'julho':
-        return '07'
-    elif month.lower() == 'agosto':
-        return '08'
-    elif month.lower() == 'setembro':
-        return '09'
-    elif month.lower() == 'outubro':
-        return '10'
-    elif month.lower() == 'novembro':
-        return '11'
-    elif month.lower() == 'dezembro':
-        return '12'
-    else:
-        return 'invalido'
-
-datastr = "24 de abril de 2021"
-datastr = datastr.split(" ")
-dia = datastr[0]
-mes = changeMonthtoNumber(datastr[2])
-ano = datastr[4]
-dataFinal = dia + '/' + mes + '/' + ano
-
-dataFinal = datetime.strptime(dataFinal, '%d/%m/%Y')
-
-print(type(dataFinal))
-print(dataFinal)
+        else:
+            novaValidacao = Validacao.objects.create(
+                objeto = o,
+                ambiente = ambiente
+            )
+            novaValidacao.save()
